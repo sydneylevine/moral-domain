@@ -1,0 +1,131 @@
+*Scripts in SPSS syntax.
+
+*Study 1.
+*Philosophers.
+*File: Study 1 philosophers and non philosophers.
+
+VARSTOCASES
+  /ID=id
+  /MAKE trans1 FROM Professor1A Professor1B Professor1C Professor1D Professor1E
+  /MAKE trans2 FROM Professor2A Professor2B Professor2C Professor2D Professor2E
+  /MAKE trans3 FROM Oysters1A Oysters1B Oysters1C Oysters1D oysters1E
+  /MAKE trans4 FROM Oysters2A Oysters2B Oysters2C Oysters2D oysters2E
+  /MAKE trans5 FROM Thieves1A Thieves1B Thieves1C Thieves1D Thieves1E
+  /MAKE trans6 FROM Thieves2A Thieves2B Thieves2C Thieves2D Thieves2E
+  /MAKE trans7 FROM Pain1A Pain1B Pain1C Pain1D Pain1E
+  /MAKE trans8 FROM Pain2A Pain2B Pain2C Pain2D Pain2E
+  /MAKE trans9 FROM Shirt1A Shirt1B Shirt1C Shirt1D Shirt1E
+  /MAKE trans10 FROM Shirt2A Shirt2B Shirt2C Shirt2D Shirt2E
+  /MAKE trans11 FROM Wallet1A Wallet1B Wallet1C Wallet1D Wallet1E
+  /MAKE trans12 FROM Wallet2A Wallet2B Wallet2C Wallet2D Wallet2E
+  /MAKE trans13 FROM Familialpunishment1A Familialpunishment1B Familialpunishment1C Familialpunishment1D Familialpunishment1E
+  /MAKE trans14 FROM Familialpunishment2A Familialpunishment2B Familialpunishment2C Familialpunishment2D Familialpunishment2E
+  /MAKE trans15 FROM Bus1A Bus1B Bus1C Bus1D Bus1E
+  /MAKE trans16 FROM Bus2A Bus2B Bus2C Bus2D Bus2E
+  /MAKE trans17 FROM Circumcision1A Circumcision1B Circumcision1C Circumcision1D Circumcision1E
+  /MAKE trans18 FROM Circumcision2A Circumcision2B Circumcision2C Circumcision2D Circumcision2E
+  /MAKE trans19 FROM Oralsex1A Oralsex1B oralsex1C Oralsex1D Oralsex1E
+  /MAKE trans20 FROM Oralsex2A Oralsex2B oralsex2C Oralsex2D Oralsex2E
+  /MAKE trans21 FROM Pasta1A Pasta1B Pasta1C Pasta1D Pasta1E
+  /MAKE trans22 FROM Pasta2A Pasta2B Pasta2C Pasta2D Pasta2E
+  /MAKE trans23 FROM Modesty1A Modesty1B Modesty1C Modesty1D Modesty1E
+  /MAKE trans24 FROM Modesty2A Modesty2B Modesty2C Modesty2D Modesty2E
+  /MAKE trans25 FROM Thai1A Thai1B Thai1C Thai1D Thai1E
+  /MAKE trans26 FROM Thai2A Thai2B Thai2C Thai2D Thai2E
+  /MAKE trans27 FROM Judge1A Judge1B Judge1C Judge1D Judge1E
+  /MAKE trans28 FROM Judge2A Judge2B Judge2C Judge2D Judge2E
+  /MAKE trans29 FROM infanthead1A infanthead1B infanthead1C Infanthead1D infanthead1E
+  /MAKE trans30 FROM infanthead2A infanthead2B infanthead2C Infanthead2D infanthead2E
+  /MAKE trans31 FROM birthcontrol1A birthcontrol1B Birthcontrol1C Birthcontrol1D Birthcontrol1E
+  /MAKE trans32 FROM birthcontrol2A birthcontrol2B Birthcontrol2C Birthcontrol2D Birthcontrol2E
+  /MAKE trans33 FROM Sunscreen1A Sunscreen1B Sunscreen1C Sunscreen1D Sunscreen1E
+  /MAKE trans34 FROM Sunscreen2A Sunscreen2B Sunscreen2C Sunscreen2D Sunscreen2E
+  /MAKE trans35 FROM Infedility1A Infedility1B Infedility1C Infedility1D Infedility1E
+  /MAKE trans36 FROM Infedility2A Infedility2B Infedility2C Infedility2D Infedility2E
+  /MAKE trans37 FROM Streetcrossing1A Streetcrossing1B streetcrossing1C Streetcrossing1D Streetcrossing1E
+  /MAKE trans38 FROM Streetcrossing2A Streetcrossing2B streetcrossing2C Streetcrossing2D Streetcrossing2E
+  /MAKE trans39 FROM Marriage1A Marriage1B Marriage1C Marriage1D Marriage1E
+  /MAKE trans40 FROM Marriage2A Marriage2B Marriage2C Marriage2D Marriage2E
+  /INDEX=Index1(5)
+  /NULL=DROP.
+AUTORECODE VARIABLES=NumberofyearssinceobtainingPhD
+    PhilosophicalTrainingGraduateStudentsleaveblankifyourenotagradua
+  /INTO Fac grad
+  /BLANK=MISSING
+  /PRINT.
+USE ALL.
+COMPUTE Philosophers=(CollectorID= 9641034 AND ~Fac=73 OR ~grad=62).
+COMPUTE Completed_A=(NOT (SYSMIS(trans2) OR SYSMIS(trans4) OR SYSMIS(trans6) OR SYSMIS(trans8) OR SYSMIS(trans10) OR SYSMIS(trans12) OR SYSMIS(trans14) OR SYSMIS(trans16) OR SYSMIS(trans18) OR SYSMIS(trans20))).
+COMPUTE Completed_B=(NOT (SYSMIS(trans22) OR SYSMIS(trans24) OR SYSMIS(trans26) OR SYSMIS(trans28) OR SYSMIS(trans30) OR SYSMIS(trans32) OR SYSMIS(trans34) OR SYSMIS(trans36) OR SYSMIS(trans38) OR SYSMIS(trans40))).
+COMPUTE FILTER_philo=(Completed_A=1 AND Completed_B=1 AND Philosophers=1).
+FILTER BY FILTER_philo.
+
+*Non-philosophers.
+*Must run this script starting from above (philosophers section).
+USE ALL.
+COMPUTE Folk=(CollectorID=14559014).
+COMPUTE Completed_A=(NOT (SYSMIS(trans2) OR SYSMIS(trans4) OR SYSMIS(trans6) OR SYSMIS(trans8) OR SYSMIS(trans10) OR SYSMIS(trans12) OR SYSMIS(trans14) OR SYSMIS(trans16) OR SYSMIS(trans18) OR SYSMIS(trans20))).
+COMPUTE Completed_B=(NOT (SYSMIS(trans22) OR SYSMIS(trans24) OR SYSMIS(trans26) OR SYSMIS(trans28) OR SYSMIS(trans30) OR SYSMIS(trans32) OR SYSMIS(trans34) OR SYSMIS(trans36) OR SYSMIS(trans38) OR SYSMIS(trans40))).
+COMPUTE FILTER_folk=( Completed_A=1 AND Completed_B=1 AND Folk=1).
+FILTER BY FILTER_folk.
+
+*Study 2.
+*File: Study 2.
+USE ALL.
+COMPUTE Participants=(V10=1 AND NOT SYSMIS(Q98.0)).
+FILTER BY Participants.
+
+*Study 3.
+*File: Study 3.
+
+*Secular participants.
+USE ALL.
+COMPUTE Seculars=( (religion = 1 OR religion=2 OR religion=13) & Condition = 1).
+FILTER BY Seculars.
+EXECUTE.
+
+*Hindus.
+USE ALL.
+COMPUTE Hindus=(religion= 6 & Condition = 1).
+FILTER BY Hindus.
+EXECUTE.
+
+*Jews.
+USE ALL.
+COMPUTE Jews=(religion= 7 & Condition = 1).
+FILTER BY Jews.
+EXECUTE.
+
+*Mormons.
+USE ALL.
+COMPUTE Mormons=(religion= 8 & Condition = 1).
+FILTER BY Mormons.
+EXECUTE.
+
+*Muslims.
+USE ALL.
+COMPUTE Muslims=(religion= 9 & Condition = 1).
+FILTER BY Muslims.
+EXECUTE.
+
+*Study 3a.
+*File: Study 3a LDS and Jewish participants.
+
+*Jewish participants.
+USE ALL.
+COMPUTE ATTN=INDEX(UPCASE(comment),"ATTEN")>0.
+COMPUTE Jews=(Condition = '1' AND ATTN=1 AND Q264=7).
+FILTER BY Jews.
+
+*Mormon participants.
+USE ALL.
+COMPUTE ATTN=INDEX(UPCASE(comment),"ATTEN")>0.
+COMPUTE Mormons=(Condition = '1' AND ATTN=1 AND Q264=8).
+FILTER BY Mormons.
+
+*File: Study 3a non religious participants.sav.
+*Secular participants.
+
+USE ALL.
+COMPUTE Seculars=(Condition = 1 AND religios  > 3 AND (ReligAff = 1 or ReligAff = 2 or ReligAff = 13)).
+FILTER BY Seculars.
